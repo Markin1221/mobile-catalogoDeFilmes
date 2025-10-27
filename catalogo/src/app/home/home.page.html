@@ -1,20 +1,91 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>FIPE Carros & Motos</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <!-- ================= CARROS ================= -->
+  <h2>Carros</h2>
+  <ion-label>Selecione a marca:</ion-label>
+  <ion-select placeholder="Escolha uma marca" (ionChange)="selecionarMarcaCarro($event.detail.value)">
+    <ion-select-option *ngFor="let marca of marcasCarros" [value]="marca">
+      {{ marca.nome }}
+    </ion-select-option>
+  </ion-select>
+
+  <div *ngIf="modelosCarros.length > 0">
+    <ion-label>Selecione o modelo:</ion-label>
+    <ion-select placeholder="Escolha um modelo" (ionChange)="selecionarModeloCarro($event.detail.value)">
+      <ion-select-option *ngFor="let modelo of modelosCarros" [value]="modelo">
+        {{ modelo.nome }}
+      </ion-select-option>
+    </ion-select>
   </div>
+
+  <div *ngIf="anosCarros.length > 0">
+    <ion-label>Selecione o ano:</ion-label>
+    <ion-select placeholder="Escolha o ano" (ionChange)="selecionarAnoCarro($event.detail.value)">
+      <ion-select-option *ngFor="let ano of anosCarros" [value]="ano">
+        {{ ano.nome }}
+      </ion-select-option>
+    </ion-select>
+  </div>
+
+  <div *ngIf="carroDetalhes">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ carroDetalhes.Marca }} {{ carroDetalhes.Modelo }}</ion-card-title>
+        <ion-card-subtitle>{{ carroDetalhes.AnoModelo }} - {{ carroDetalhes.Combustivel }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        Valor: <strong>{{ carroDetalhes.Valor }}</strong><br>
+        Código FIPE: {{ carroDetalhes.CodigoFipe }}
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <hr>
+
+  <!-- ================= MOTOS ================= -->
+  <h2>Motos</h2>
+  <ion-label>Selecione a marca:</ion-label>
+  <ion-select placeholder="Escolha uma marca" (ionChange)="selecionarMarcaMoto($event.detail.value)">
+    <ion-select-option *ngFor="let marca of marcasMotos" [value]="marca">
+      {{ marca.nome }}
+    </ion-select-option>
+  </ion-select>
+
+  <div *ngIf="modelosMotos.length > 0">
+    <ion-label>Selecione o modelo:</ion-label>
+    <ion-select placeholder="Escolha um modelo" (ionChange)="selecionarModeloMoto($event.detail.value)">
+      <ion-select-option *ngFor="let modelo of modelosMotos" [value]="modelo">
+        {{ modelo.nome }}
+      </ion-select-option>
+    </ion-select>
+  </div>
+
+  <div *ngIf="anosMotos.length > 0">
+    <ion-label>Selecione o ano:</ion-label>
+    <ion-select placeholder="Escolha o ano" (ionChange)="selecionarAnoMoto($event.detail.value)">
+      <ion-select-option *ngFor="let ano of anosMotos" [value]="ano">
+        {{ ano.nome }}
+      </ion-select-option>
+    </ion-select>
+  </div>
+
+  <div *ngIf="motoDetalhes">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ motoDetalhes.Marca }} {{ motoDetalhes.Modelo }}</ion-card-title>
+        <ion-card-subtitle>{{ motoDetalhes.AnoModelo }} - {{ motoDetalhes.Combustivel }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        Valor: <strong>{{ motoDetalhes.Valor }}</strong><br>
+        Código FIPE: {{ motoDetalhes.CodigoFipe }}
+      </ion-card-content>
+    </ion-card>
+  </div>
+
 </ion-content>
