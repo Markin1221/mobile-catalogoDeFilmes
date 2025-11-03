@@ -1,0 +1,4 @@
+link_api = https://api.api-ninjas.com/v2/recipe
+
+site = https://api-ninjas.com/api/recipe
+
