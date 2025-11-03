@@ -8,8 +8,6 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-
-  <!-- Barra de pesquisa -->
   <ion-searchbar
     [(ngModel)]="searchTerm"
     placeholder="Buscar receitas..."
@@ -17,38 +15,26 @@
     debounce="300">
   </ion-searchbar>
 
-  <!-- Grid de receitas -->
-  <ion-grid *ngIf="filteredRecipes.length > 0; else noResults">
+  <ion-grid *ngIf="recipes.length > 0; else noResults">
     <ion-row>
-      <ion-col size="12" sizeMd="6" sizeLg="4" *ngFor="let recipe of filteredRecipes">
+      <ion-col size="12" sizeMd="6" sizeLg="4" *ngFor="let recipe of recipes">
         <ion-card>
-          <!-- Imagem opcional -->
           <img *ngIf="recipe.image" [src]="recipe.image" alt="{{ recipe.title }}" />
-
           <ion-card-header>
             <ion-card-title>{{ recipe.title }}</ion-card-title>
           </ion-card-header>
-
           <ion-card-content>
-            <!-- Ingredientes (se existirem) -->
             <p *ngIf="recipe.ingredients"><strong>Ingredientes:</strong> {{ recipe.ingredients }}</p>
-
-            <!-- Instruções / descrição -->
             <p *ngIf="recipe.description"><strong>Instruções:</strong> {{ recipe.description }}</p>
-
-            <!-- Categoria (se existir) -->
-            <small *ngIf="recipe.category" class="ion-text-muted">{{ recipe.category }}</small>
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <!-- Mensagem quando não há resultados -->
   <ng-template #noResults>
     <div class="ion-text-center ion-padding">
       <p>Nenhuma receita encontrada com "{{ searchTerm }}"</p>
     </div>
   </ng-template>
-
 </ion-content>
