@@ -8,5 +8,6 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonIcon, IonLabel
   imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonIcon, IonLabel],
 })
 export class HomePage {
-  constructor() {}
+  constructor( 
+  ) {}
 }
