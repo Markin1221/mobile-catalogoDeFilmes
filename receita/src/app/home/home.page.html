@@ -1,16 +1,29 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-item>
-      <ion-icon name="pizza" slot="start"></ion-icon>
-      <ion-label>Pizza</ion-label>
-    </ion-item>
+    <ion-title>Receitas</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding">
 
-  <div id="container">
-    <strong>se mata arnaldo 😡🏳️‍🌈</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <ion-input
+    placeholder="Digite o termo de busca"
+    [(ngModel)]="termoBusca">
+  </ion-input>
+
+  <ion-button expand="full" (click)="buscarReceitas()">
+    Buscar Receitas
+  </ion-button>
+
+  <div *ngIf="receitas.length > 0">
+    <h2>Resultados:</h2>
+    <ul>
+      <li *ngFor="let receita of receitas">
+  <strong>{{ receita.title || receita.name }}</strong>
+  <p>Ingredientes: {{ receita.ingredients }}</p>
+</li>
+
+    </ul>
   </div>
+
 </ion-content>
