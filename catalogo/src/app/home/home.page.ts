@@ -1,106 +1,57 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { FipeService } from '../services/fipe.service';
-import { catchError, of } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+interface Recipe {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  image: string;
+}
 
 @Component({
   selector: 'app-home',
+  standalone: true, // 👈 mantém standalone
+  imports: [IonicModule, CommonModule, FormsModule],
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
-  standalone: true,
-  imports: [IonicModule, CommonModule]
 })
-export class HomePage implements OnInit {
+export class HomePage {
+  searchTerm: string = '';
 
-  // ================= CARROS =================
-  marcasCarros: any[] = [];
-  modelosCarros: any[] = [];
-  anosCarros: any[] = [];
-  carroDetalhes: any = null;
-  marcaCarroSelecionada: any;
-  modeloCarroSelecionado: any;
-  anoCarroSelecionado: any;
+  recipes: Recipe[] = [
+    {
+      id: 1,
+      title: 'Bolo de Chocolate',
+      description: 'Um bolo fofinho e delicioso com cobertura cremosa.',
+      category: 'Sobremesa',
+      image: 'assets/bolo-chocolate.jpg',
+    },
+    {
+      id: 2,
+      title: 'Lasanha de Frango',
+      description: 'Lasanha cremosa com frango desfiado e molho branco.',
+      category: 'Prato Principal',
+      image: 'assets/lasanha-frango.jpg',
+    },
+    {
+      id: 3,
+      title: 'Salada Grega',
+      description: 'Refrescante e saudável, perfeita para o verão.',
+      category: 'Salada',
+      image: 'assets/salada-grega.jpg',
+    },
+  ];
 
-  // ================= MOTOS =================
-  marcasMotos: any[] = [];
-  modelosMotos: any[] = [];
-  anosMotos: any[] = [];
-  motoDetalhes: any = null;
-  marcaMotoSelecionada: any;
-  modeloMotoSelecionado: any;
-  anoMotoSelecionado: any;
-
-  constructor(private fipeService: FipeService) {}
-
-  ngOnInit() {
-    this.fipeService.getMarcasCarros().subscribe(data => this.marcasCarros = data);
-    this.fipeService.getMarcasMotos().subscribe(data => this.marcasMotos = data);
-  }
-
-  // ================= CARROS =================
-  selecionarMarcaCarro(marca: any) {
-    this.marcaCarroSelecionada = marca;
-    this.modeloCarroSelecionado = null;
-    this.anosCarros = [];
-    this.carroDetalhes = null;
-
-    this.fipeService.getModelosCarros(marca.codigo)
-      .pipe(catchError(err => { console.error(err); return of({ modelos: [] }); }))
-      .subscribe(data => this.modelosCarros = data.modelos || []);
-  }
-
-  selecionarModeloCarro(modelo: any) {
-    this.modeloCarroSelecionado = modelo;
-    this.anosCarros = [];
-    this.carroDetalhes = null;
-
-    this.fipeService.getModelosCarros(this.marcaCarroSelecionada.codigo)
-      .pipe(catchError(err => { console.error(err); return of({ anos: [] }); }))
-      .subscribe(data => this.anosCarros = data.anos || []);
-  }
-
-  selecionarAnoCarro(ano: any) {
-    this.anoCarroSelecionado = ano;
-    this.fipeService.getAnoDetalhesCarro(this.marcaCarroSelecionada.codigo, this.modeloCarroSelecionado.codigo, ano.codigo)
-      .pipe(catchError(err => { 
-        console.error(err); 
-        alert('Detalhes deste carro não estão disponíveis.');
-        return of(null);
-      }))
-      .subscribe(data => this.carroDetalhes = data);
-  }
-
-  // ================= MOTOS =================
-  selecionarMarcaMoto(marca: any) {
-    this.marcaMotoSelecionada = marca;
-    this.modeloMotoSelecionado = null;
-    this.anosMotos = [];
-    this.motoDetalhes = null;
-
-    this.fipeService.getModelosMotos(marca.codigo)
-      .pipe(catchError(err => { console.error(err); return of({ modelos: [] }); }))
-      .subscribe(data => this.modelosMotos = data.modelos || []);
-  }
-
-  selecionarModeloMoto(modelo: any) {
-    this.modeloMotoSelecionado = modelo;
-    this.anosMotos = [];
-    this.motoDetalhes = null;
-
-    this.fipeService.getModelosMotos(this.marcaMotoSelecionada.codigo)
-      .pipe(catchError(err => { console.error(err); return of({ anos: [] }); }))
-      .subscribe(data => this.anosMotos = data.anos || []);
-  }
-
-  selecionarAnoMoto(ano: any) {
-    this.anoMotoSelecionado = ano;
-    this.fipeService.getAnoDetalhesMoto(this.marcaMotoSelecionada.codigo, this.modeloMotoSelecionado.codigo, ano.codigo)
-      .pipe(catchError(err => { 
-        console.error(err); 
-        alert('Detalhes desta moto não estão disponíveis.');
-        return of(null);
-      }))
-      .subscribe(data => this.motoDetalhes = data);
+  get filteredRecipes(): Recipe[] {
+    const term = this.searchTerm.toLowerCase();
+    return this.recipes.filter(
+      (recipe) =>
+        recipe.title.toLowerCase().includes(term) ||
+        recipe.description.toLowerCase().includes(term) ||
+        recipe.category.toLowerCase().includes(term)
+    );
   }
 }

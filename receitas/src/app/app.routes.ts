@@ -4,6 +4,6 @@ import { HomePage } from './home/home.page';
 export const routes: Routes = [
   {
     path: '',
-    component: HomePage, // 👈 usa direto, não importa módulo
+    component: HomePage, 
   },
 ];

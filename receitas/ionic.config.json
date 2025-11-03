@@ -1,0 +1,7 @@
+{
+  "name": "receitas",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
