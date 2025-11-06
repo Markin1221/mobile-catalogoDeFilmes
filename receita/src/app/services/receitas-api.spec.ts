@@ -1,13 +1,16 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';  // Necessário para testar HttpClient
 
-import { ReceitasApi } from './receitas-api';
+import { ApiService } from './receitas-api';
 
-describe('ReceitasApi', () => {
-  let service: ReceitasApi;
+describe('ApiService', () => {
+  let service: ApiService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(ReceitasApi);
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],  // Adicione isso para mockar HttpClient
+    });
+    service = TestBed.inject(ApiService);
   });
 
   it('should be created', () => {

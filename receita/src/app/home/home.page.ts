@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Api } from '../services/receitas-api';
+import { ApiService } from '../services/receitas-api';  // Ajuste o caminho se necessário
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -8,7 +8,9 @@ import {
   IonTitle,
   IonContent,
   IonButton,
-  IonInput
+  IonList,
+  IonItem,
+  IonLabel
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -17,36 +19,33 @@ import {
   styleUrls: ['home.page.scss'],
   imports: [
     CommonModule,
-    FormsModule,  
+    FormsModule,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonContent,
     IonButton,
-    IonInput
+    IonList,
+    IonItem,
+    IonLabel
   ],
 })
-
 export class HomePage {
-  receitas: any[] = [];
-  termoBusca: string = 'a';
+  agentes: any[] = [];
 
-  constructor(private api: Api) {} 
+  constructor(private api: ApiService) {}
 
-  buscarReceitas() {
-    if (!this.termoBusca.trim()) return;
-
-    this.api.searchRecipes(this.termoBusca).subscribe({
+  // Método para buscar agentes ao clicar no botão
+  buscarAgentes() {
+    this.api.getAgents().subscribe({
       next: (data) => {
-        this.receitas = data;
-        console.log('Receitas encontradas:', data);
+        // A API retorna { data: [...] }, então pegamos o array de agentes
+        this.agentes = data.data || [];
+        console.log('Agentes encontrados:', this.agentes);
       },
       error: (err) => {
-        console.error('Erro ao buscar receitas:', err);
+        console.error('Erro ao buscar agentes:', err);
       }
     });
-  } 
-
-
-  
+  }
 }

@@ -1,29 +1,23 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Receitas</ion-title>
+    <ion-title>Agentes do Valorant</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-
-  <ion-input
-    placeholder="Digite o termo de busca"
-    [(ngModel)]="termoBusca">
-  </ion-input>
-
-  <ion-button expand="full" (click)="buscarReceitas()">
-    Buscar Receitas
+  <ion-button expand="full" (click)="buscarAgentes()">
+    Buscar Agentes
   </ion-button>
 
-  <div *ngIf="receitas.length > 0">
-    <h2>Resultados:</h2>
-    <ul>
-      <li *ngFor="let receita of receitas">
-  <strong>{{ receita.title || receita.name }}</strong>
-  <p>Ingredientes: {{ receita.ingredients }}</p>
-</li>
-
-    </ul>
+  <div *ngIf="agentes.length > 0">
+    <h2>Agentes:</h2>
+    <ion-list>
+      <ion-item *ngFor="let agente of agentes">
+        <ion-label>
+          <h2>{{ agente.displayName }}</h2>
+          <p>{{ agente.description }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
   </div>
-
 </ion-content>
