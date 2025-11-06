@@ -1,0 +1,13 @@
+#1cc7d3	RGB(28, 199, 211) letra estiver certa
+
+#a4abbe	RGB(164, 171, 190) cor das teclas
+
+#778ae7	RGB(119, 138, 231)	mensagem de vitoria
+
+#5464ac	RGB(84, 100, 172) mensagem de derrota 
+
+#142d74	RGB(20, 45, 116) letra estiver errado
+
+#39334f	RGB(57, 51, 79) cor de fundo 
+
+#ffffff para as letras (se nessesario troque) 
