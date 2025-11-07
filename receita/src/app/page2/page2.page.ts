@@ -1,11 +1,26 @@
+import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonButton,
+} from '@ionic/angular/standalone';  
 type TileState = 'empty' | 'filled' | 'correct' | 'present' | 'absent';
 
 @Component({
   selector: 'app-page2',
   templateUrl: './page2.page.html',
   styleUrls: ['./page2.page.scss'],
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonButton,
+    NgClass,
+  ],
 })
 export class Page2Page implements OnInit {
 
