@@ -1,0 +1,101 @@
+:host {
+  display: block;
+}
+
+.page-content {
+  --ion-background-color: #0b1020;
+  color: #e6eef6;
+  padding: 12px;
+  min-height: 100%;
+}
+
+.game-wrap {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+.grid {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+/* tile */
+.tile {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 20px;
+  border-radius: 6px;
+  background: #101822;
+  color: #e6eef6;
+  border: 2px solid rgba(255,255,255,0.06);
+  text-transform: uppercase;
+  user-select: none;
+}
+
+/* estados visuais */
+.tile.filled { background: #0f1724; }
+.tile.correct { background: #16a34a; color: white; border: none; box-shadow: 0 2px 0 rgba(0,0,0,0.4) inset; }
+.tile.present { background: #f59e0b; color: #0b0b0b; border: none; }
+.tile.absent  { background: #334155; color: #cbd5e1; border: none; }
+
+/* mensagem */
+.message {
+  margin: 8px 0 12px;
+  text-align: center;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+/* teclado */
+.keyboard {
+  margin-top: 8px;
+}
+.keyboard .row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+.kbtn {
+  padding: 10px 12px;
+  min-width: 40px;
+  border-radius: 6px;
+  border: none;
+  background: #0f1724;
+  color: #e6eef6;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.kbtn:hover { transform: translateY(-1px); }
+
+.kbtn.correct { background: #16a34a; color: #fff; }
+.kbtn.present { background: #f59e0b; color: #000; }
+.kbtn.absent  { background: #374151; color: #cbd5e1; }
+
+/* ações */
+.kbtn.action {
+  flex: 1 1 auto;
+  min-width: 120px;
+  background: #111827;
+  color: #fff;
+}
+
+/* responsivo */
+@media (max-width: 600px) {
+  .tile { font-size: 18px; }
+  .kbtn { min-width: 32px; padding: 8px 10px; }
+}

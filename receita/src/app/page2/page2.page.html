@@ -1,13 +1,52 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>page2</ion-title>
+
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Termo Valorant</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">page2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="page-content">
+  <div class="game-wrap">
+
+    <div class="info">
+      <div>Palavra do dia • Valorant Edition</div>
+      <div class="meta">Tentativas: 6 • Tamanho: {{ wordLength }} letras</div>
+    </div>
+
+    <!-- Grid adaptável: linhas = 6, colunas = wordLength -->
+    <div class="grid" [style.gridTemplateColumns]="'repeat(' + wordLength + ', 1fr)'">
+      <ng-container *ngFor="let r of rows; let ri = index">
+        <ng-container *ngFor="let c of cols; let ci = index">
+          <div class="tile"
+               [ngClass]="getTileClass(ri, ci)">
+            {{ getLetter(ri, ci) }}
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+
+    <!-- Mensagens -->
+    <div class="message" *ngIf="message">{{ message }}</div>
+
+    <!-- Controles -->
+    <div class="controls">
+      <ion-button expand="block" (click)="restart()">Reiniciar</ion-button>
+    </div>
+
+    <!-- Teclado na tela -->
+    <div class="keyboard">
+      <div class="row" *ngFor="let line of keyboardRows">
+        <button class="kbtn" *ngFor="let k of line"
+                [ngClass]="keyClass(k)"
+                (click)="onKey(k)">
+          {{ k }}
+        </button>
+      </div>
+      <div class="row">
+        <button class="kbtn action" (click)="onEnter()">Entrar</button>
+        <button class="kbtn action" (click)="onBackspace()">Apagar</button>
+      </div>
+    </div>
+
+  </div>
 </ion-content>
