@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';  // Necessário para testar HttpClient
+import { HttpClientTestingModule } from '@angular/common/http/testing';  
 
 import { ApiService } from './receitas-api';
 
