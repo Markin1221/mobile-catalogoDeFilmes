@@ -1,0 +1,22 @@
+1. mostrar embaixo da pagina o teclado com as teclas que tem e que não tem(tipo os q tem no termo o letroso)
+
+2. colocar uma barra visível onde for pra digitar (ou remover a barra e mostrar so o teclado)
+
+3. colocar outra cor quando a letra existir na palavra mas não na posição correta
+
+4. fazer a segunda pagina 
+
+5. aumentar a quantidade de tentativas para a pessoa perder(e dizer quantas tentativas faltam)
+
+6.1. fazer uma janelinha quando acertar o personagem
+
+6.2. fazer botão para quando acertar se quiser tentar novamente(Ex: Parabens, voce acertou clique <a href="/home" | uppercase> aqui </a> para jogar novamente!!)
+
+7. mudar o formato das letras iniciais e finais da palavra certa(mudar pro quadrado pra algo que indique que é a ponta da palavra) 
+
+8.1. criar a diretiva personalizada
+
+8.2. criar pipe personalizada
+
+9. colocar tela de fundo funcionando (se quiser [Omen.jpg]---> ta em assets/img/Omen.jpg)
+
