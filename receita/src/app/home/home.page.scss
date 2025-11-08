@@ -1,27 +1,50 @@
-#container {
+.letroso-bg {
+  --background: #39334f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80%;
+}
+
+.word-display {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.letter-box {
+  width: 50px;
+  height: 60px;
+  border-radius: 8px;
+  background-color: #142d74;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.mensagem-vitoria {
+  color: #778ae7;
+  font-weight: bold;
+}
+
+.mensagem-derrota {
+  color: #5464ac;
+  font-weight: bold;
+}
+
+.hint-text {
+  color: #a4abbe;
+  margin-top: 10px;
   text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
 }

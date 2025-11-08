@@ -1,24 +1,26 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Agentes do Valorant</ion-title>
-    <a routerLink="/page2">login</a>
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>LETROSO</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
-  <ion-button expand="full" (click)="buscarAgentes()">
-    Buscar Agentes
-  </ion-button>
+<ion-content [fullscreen]="true" class="letroso-bg ion-padding">
+  <div class="game-container">
+    <!-- Letras -->
+    <div class="word-display">
+      <div
+        class="letter-box"
+        *ngFor="let letter of letters; let i = index"
+        [ngStyle]="{'background-color': resultado[i] || '#142d74'}"
+      >
+        {{ letter }}
+      </div>
+    </div>
 
-  <div *ngIf="agentes.length > 0">
-    <h2>Agentes:</h2>
-    <ion-list>
-      <ion-item *ngFor="let agente of agentes">
-        <ion-label>
-          <h2>{{ agente.displayName }}</h2>
-          <p>{{ agente.description }}</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
+    <!-- Mensagens -->
+    <p *ngIf="vitoria" class="mensagem-vitoria">🎉 Você acertou!</p>
+    <p *ngIf="derrota" class="mensagem-derrota">❌ Tente novamente!</p>
+
+    <p class="hint-text">Digite o nome do agente Valorant...</p>
   </div>
 </ion-content>
