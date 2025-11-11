@@ -1,27 +1,54 @@
 <ion-header>
-  <ion-toolbar color="">
-    <ion-title>LETROSO</ion-title>
-    <a href="/page2" class="rota">Page2</a>
+  <ion-toolbar color="dark" class="header-custom">
+    <ion-title class="titulo-jogo">LETEROSO VALORANT</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="letroso-bg ion-padding">
-  <div class="game-container">
-    <!-- Letras -->
-    <div class="word-display">
+<ion-content [class.vitoria-bg]="vitoria" class="termo-bg ion-padding">
+  <h2 class="subtitle">Descubra o Agente Secreto!</h2>
+
+  <!-- Espaços das letras -->
+  <div class="letras-container">
+    <div
+      class="letra"
+      *ngFor="let letter of agenteSecreto.split(''); let i = index"
+      [ngClass]="{
+        'correta': resultado[i] === '#1cc7d3',
+        'parcial': resultado[i] === '#142d74',
+        'errada': resultado[i] === '#39334f'
+      }"
+    >
+      {{ letters[i] || '' }}
+    </div>
+  </div>
+
+  <!-- Mensagens -->
+  <p *ngIf="vitoria" class="mensagem-vitoria">🎉 Você acertou o agente! 🎉</p>
+  <p *ngIf="derrota && !vitoria" class="mensagem-derrota">❌ Tente novamente!</p>
+
+  <!-- Botão centralizado -->
+  <div class="btn-container">
+    <ion-button expand="block" color="primary" (click)="buscarAgentes()">
+      Buscar Novo Agente
+    </ion-button>
+  </div>
+
+  <!-- Teclado -->
+  <div class="teclado-container">
+    <div class="key-row" *ngFor="let row of linhasTeclado">
       <div
-        class="letter-box"
-        *ngFor="let letter of letters; let i = index"
-        [ngStyle]="{'background-color': resultado[i] || '#142d74'}"
+        *ngFor="let key of row"
+        class="key"
+        [ngStyle]="{'background-color': teclado[key] || '#2a2a40'}"
+        (click)="cliqueTecla(key)"
       >
-        {{ letter }}
+        {{ key }}
       </div>
     </div>
 
-    <!-- Mensagens -->
-    <p *ngIf="vitoria" class="mensagem-vitoria">🎉 você acertou! </p>
-    <p *ngIf="derrota" class="mensagem-derrota">❌ tente novamente!</p>
-
-    <p class="hint-text">Digite o nome do agente Valorant...</p>
+    <div class="key-row">
+      <div class="key special" (click)="cliqueTecla('BACKSPACE')">⌫</div>
+      <div class="key special" (click)="cliqueTecla('ENTER')">ENTER</div>
+    </div>
   </div>
 </ion-content>

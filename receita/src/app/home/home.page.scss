@@ -1,62 +1,152 @@
-ion-toolbar {
-  display: none;
-  color: red;
-}
-
-.letroso-bg {
-  --background: none;
-  background-image: url('/assets/imgs/Omen.jpg');
-  background-size: cover;         
-  background-position: center;   
-  background-repeat: no-repeat;   
-  background-attachment: fixed;   
-
- 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.game-container {
+/* Fundo geral */
+.termo-bg {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 80%;
+  justify-content: flex-start;
+  background-color: #0d1117;
+  min-height: 100vh;
+  color: #fff;
+  padding: 20px;
 }
 
-.word-display {
+/* Corrige a cor da barra superior */
+.header-custom {
+  --background: #0d1117;
+  --color: #ffffff;
+  border-bottom: 2px solid #1cc7d3;
+}
+
+/* ===== Título ===== */
+.titulo-jogo {
+  text-align: center;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px #1cc7d3;
+}
+
+/* Subtítulo */
+.subtitle {
+  font-size: 1.5rem;
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* Letras */
+.letras-container {
   display: flex;
+  justify-content: center;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-.letter-box {
-  width: 50px;
+.letra {
+  width: 60px;
   height: 60px;
-  border-radius: 8px;
-  background-color: #142d74;
-  color: #ffffff;
+  border-radius: 10px;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  color: white;
   font-weight: bold;
-  text-transform: uppercase;
+  background-color: #1e1e2f;
+  transition: 0.3s;
 }
 
-.mensagem-vitoria {
-  color: #778ae7;
+.letra.correta {
+  background-color: #1cc7d3;
+}
+
+.letra.parcial {
+  background-color: #142d74;
+}
+
+.letra.errada {
+  background-color: #39334f;
+}
+
+/* Botão centralizado */
+.btn-container {
+  display: flex;
+  justify-content: center;
+  margin: 25px 0;
+}
+
+ion-button {
+  width: 220px;
+  --background: #1cc7d3;
+  --color: white;
   font-weight: bold;
+  border-radius: 12px;
+}
+
+/* ===== Teclado ===== */
+.teclado-container {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.key-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.key {
+  background-color: #2a2a40;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.1rem;
+  min-width: 45px;
+  text-align: center;
+  transition: all 0.2s ease;
+  color: #fff;
+}
+
+.key:hover {
+  background-color: #1cc7d3;
+  color: #000;
+  transform: scale(1.05);
+}
+
+.key.special {
+  background-color: #5464ac;
+  color: #fff;
+}
+
+/* Mensagens */
+.mensagem-vitoria {
+  font-size: 1.3rem;
+  color: #00ffcc;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+  animation: brilho 1.2s infinite alternate;
+}
+
+@keyframes brilho {
+  from { text-shadow: 0 0 10px #00ffcc; }
+  to { text-shadow: 0 0 25px #00ffcc, 0 0 50px #00ffcc; }
 }
 
 .mensagem-derrota {
-  color: #5464ac;
+  font-size: 1.2rem;
+  color: #ff5555;
   font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
 }
 
-.hint-text {
-  color: #a4abbe;
-  margin-top: 10px;
-  text-align: center;
+/* Fundo quando vence */
+.vitoria-bg {
+  background: linear-gradient(180deg, #0d1117 0%, #1cc7d3 100%);
+  transition: background 0.8s ease;
 }

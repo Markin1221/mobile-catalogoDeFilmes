@@ -1,106 +1,158 @@
-import { Component, HostListener } from '@angular/core';
-import { ApiService } from '../services/receitas-api';  // Ajuste o caminho se necessário
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonButton,
-  IonList,
-  IonItem,
-  IonLabel
-} from '@ionic/angular/standalone';
+import { IonicModule } from '@ionic/angular';
+import { ApiService } from '../services/receitas-api'; // ajuste o caminho se necessário
 
 @Component({
   selector: 'app-home',
+  standalone: true,
+  imports: [CommonModule, FormsModule, IonicModule],
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonButton,
-    IonList,
-    IonItem,
-    IonLabel
-  ],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   agentes: any[] = [];
-  agenteSecreto: string = ''; // Nome do agente a ser adivinhado
-  letters: string[] = []; // Letras digitadas
-  resultado: string[] = []; // Cores de feedback para cada letra
+  agenteSecreto: string = '';
+  letters: string[] = [];
+  resultado: string[] = [];
+  teclado: { [key: string]: string } = {};
   vitoria = false;
   derrota = false;
 
-  constructor(private api: ApiService) {
-    this.buscarAgentes();
-  }
+  // Armazena todas as tentativas anteriores
+  tentativas: { letras: string[]; cores: string[] }[] = [];
 
-  // Busca agentes e escolhe um aleatório
+  linhasTeclado: string[][] = [
+    ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+    ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+    ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
+  ];
+
+  constructor(private api: ApiService) {}
+
+  ngOnInit(): void {}
+
   buscarAgentes() {
+    // Só permite buscar novo agente se o jogador venceu ou não começou ainda
+    if (this.agenteSecreto && !this.vitoria) {
+      return;
+    }
+
     this.api.getAgents().subscribe({
-      next: (data) => {
-        this.agentes = data.data || [];
-        if (this.agentes.length > 0) {
-          const aleatorio = Math.floor(Math.random() * this.agentes.length);
-          this.agenteSecreto = this.agentes[aleatorio].displayName.toUpperCase();
-          console.log('Agente secreto:', this.agenteSecreto);
-        }
+      next: (res: any) => {
+        this.agentes = res.data || [];
+        if (!this.agentes.length) return;
+
+        const rnd = Math.floor(Math.random() * this.agentes.length);
+        this.agenteSecreto = String(this.agentes[rnd].displayName || '')
+          .toUpperCase()
+          .replace(/\s+/g, '');
+
+        // Reset total
+        this.letters = [];
+        this.resultado = [];
+        this.teclado = {};
+        this.tentativas = [];
+        this.vitoria = false;
+        this.derrota = false;
+
+        console.log('Agente secreto:', this.agenteSecreto);
       },
-      error: (err) => {
-        console.error('Erro ao buscar agentes:', err);
-      }
+      error: (err) => console.error('Erro ao buscar agentes:', err),
     });
   }
 
-  // Captura teclado físico
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
-    const key = event.key.toUpperCase();
+    this.processKey(String(event.key));
+  }
 
-    if (/^[A-Z]$/.test(key) && this.letters.length < this.agenteSecreto.length) {
-      this.letters.push(key);
-    }
+  cliqueTecla(k: string) {
+    this.processKey(k);
+  }
 
-    if (key === 'BACKSPACE') {
-      this.letters.pop();
+  private processKey(rawKey: string) {
+    if (!rawKey) return;
+    const key = rawKey.toUpperCase();
+
+    if (this.vitoria) return;
+
+    if (key === 'BACKSPACE' || key === 'BACK') {
+      this.backspace();
+      return;
     }
 
     if (key === 'ENTER') {
-      this.verificarPalavra();
+      this.trySubmit();
+      return;
     }
+
+    if (!this.agenteSecreto) return;
+    if (/^[A-Z]$/.test(key)) this.addLetter(key);
   }
 
-  // Verifica se a palavra está certa
-  verificarPalavra() {
+  private addLetter(letter: string) {
+    if (this.letters.length >= this.agenteSecreto.length) return;
+    this.letters.push(letter);
+  }
+
+  private backspace() {
+    this.letters.pop();
+  }
+
+  private trySubmit() {
     if (this.letters.length !== this.agenteSecreto.length) return;
+    this.verificarPalpite();
+  }
 
-    this.resultado = this.letters.map((letra, i) => {
-      if (letra === this.agenteSecreto[i]) return '#1cc7d3'; // posição e letra corretas
-      else return '#142d74'; // errada
-    });
+  private verificarPalpite() {
+    const tentativa = this.letters.join('');
+    const correta = this.agenteSecreto;
 
-    const palavra = this.letters.join('');
-    if (palavra === this.agenteSecreto) {
-      this.vitoria = true;
-      console.log('🎉 Vitória!');
-    } else {
-      this.derrota = true;
-      console.log('❌ Derrota! O agente era:', this.agenteSecreto);
+    this.resultado = new Array(correta.length).fill('#39334f');
+    const freq: { [k: string]: number } = {};
+
+    for (const ch of correta) freq[ch] = (freq[ch] || 0) + 1;
+
+    for (let i = 0; i < correta.length; i++) {
+      if (tentativa[i] === correta[i]) {
+        this.resultado[i] = '#1cc7d3'; // letra certa e posição certa
+        this.teclado[tentativa[i]] = '#1cc7d3';
+        freq[correta[i]]--;
+      }
     }
 
-    setTimeout(() => {
-      this.letters = [];
-      this.resultado = [];
-      this.vitoria = false;
+    for (let i = 0; i < correta.length; i++) {
+      if (this.resultado[i] === '#1cc7d3') continue;
+      const letra = tentativa[i];
+      if (freq[letra] > 0) {
+        this.resultado[i] = '#142d74'; // letra existe mas posição errada
+        if (this.teclado[letra] !== '#1cc7d3') {
+          this.teclado[letra] = '#142d74';
+        }
+        freq[letra]--;
+      } else {
+        this.resultado[i] = '#39334f'; // letra errada
+        this.teclado[letra] ??= '#39334f';
+      }
+    }
+
+    // Salva tentativa no histórico
+    this.tentativas.push({
+      letras: [...this.letters],
+      cores: [...this.resultado],
+    });
+
+    // Vitória
+    if (tentativa === correta) {
+      this.vitoria = true;
       this.derrota = false;
-      this.buscarAgentes();
-    }, 3000);
+    } else {
+      this.derrota = true;
+    }
+
+    // Reseta entrada para próxima tentativa
+    this.letters = [];
   }
 }
