@@ -133,8 +133,8 @@ export class HomePage implements OnInit {
         }
         freq[letra]--;
       } else {
-        this.resultado[i] = '#39334f'; // letra errada
-        this.teclado[letra] ??= '#39334f';
+        this.resultado[i] = '#13111aff'; // letra errada
+        this.teclado[letra] ??= '#0f0d14ff';
       }
     }
 

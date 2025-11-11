@@ -20,3 +20,4 @@
 
 9. colocar tela de fundo funcionando (se quiser [Omen.jpg]---> ta em assets/img/Omen.jpg)
 
+10. a segunda tela poderia ser vc acertar o agente a partir de uma descriçao sobre ele ou acertar o personagem a partir da imagem da habilidade dele, tipo a o 'loldle' -
