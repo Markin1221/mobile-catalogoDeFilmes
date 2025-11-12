@@ -2,12 +2,13 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { ApiService } from '../services/receitas-api'; // ajuste o caminho se necessário
+import { ApiService } from '../services/receitas-api'; 
+import { ErrorShakeDirective } from '../directives/error-shake';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule],
+  imports: [CommonModule, FormsModule, IonicModule, ErrorShakeDirective],
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
@@ -51,7 +52,7 @@ export class HomePage implements OnInit {
         this.tentativas = [];
         this.vitoria = false;
         this.derrota = false;
-        
+
       },
       error: (err) => console.error('Erro ao buscar agentes:', err),
     });
