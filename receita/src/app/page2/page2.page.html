@@ -1,7 +1,7 @@
 
 <ion-header>
   <ion-toolbar color="dark">
-    <ion-title>Termo Valorant</ion-title>
+    <ion-title>Valoroso Historico</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -10,7 +10,7 @@
 
     <div class="info">
       <div>Palavra do dia • Valorant Edition</div>
-      <div class="meta">Tentativas: 6 • Tamanho: {{ wordLength }} letras</div>
+      <div class="meta">Tentativas: ** • Tamanho:** {{ wordLength }} letras</div>
     </div>
 
     <!-- Grid adaptável: linhas = 6, colunas = wordLength -->
@@ -30,7 +30,7 @@
 
     <!-- Controles -->
     <div class="controls">
-      <ion-button expand="block" (click)="restart()">Reiniciar</ion-button>
+      <ion-button expand="block" (click)="restart()">Jogo livre</ion-button>
     </div>
 
     <!-- Teclado na tela -->
@@ -43,8 +43,7 @@
         </button>
       </div>
       <div class="row">
-        <button class="kbtn action" (click)="onEnter()">Entrar</button>
-        <button class="kbtn action" (click)="onBackspace()">Apagar</button>
+        <button class="kbtn action" (click)="onBackspace()">Apagar Historico</button>
       </div>
     </div>
 
