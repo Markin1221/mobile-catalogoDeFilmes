@@ -7,44 +7,53 @@
 <ion-content [class.vitoria-bg]="vitoria" class="termo-bg ion-padding">
   <h2 class="subtitle">Descubra o Agente Secreto!</h2>
 
-  <!-- Espaços das letras -->
+  
   <div class="letras-container">
-    <div
-      class="letra"
-      *ngFor="let letter of agenteSecreto.split(''); let i = index"
-      [ngClass]="{
-        'correta': resultado[i] === '#1cc7d3',
-        'parcial': resultado[i] === '#142d74',
-        'errada': resultado[i] === '#39334f'
-      }"
-    >
-      {{ letters[i] || '' }}
-    </div>
+    @for (letter of agenteSecreto.split(''); let i = $index; track i) {
+      <div
+        class="letra"
+        [ngClass]="{
+          'correta': resultado[i] === '#1cc7d3',
+          'parcial': resultado[i] === '#142d74',
+          'errada': resultado[i] === '#39334f'
+        }"
+      >
+        {{ letters[i] || '' }}
+      </div>
+    } @empty {
+      <p>Nenhum agente carregado ainda.</p>
+    }
   </div>
 
-  <!-- Mensagens -->
-  <p *ngIf="vitoria" class="mensagem-vitoria">🎉 Você acertou o agente! 🎉</p>
-  <p *ngIf="derrota && !vitoria" class="mensagem-derrota">❌ Tente novamente!</p>
+  
+  @if (vitoria) {
+    <p class="mensagem-vitoria">🎉 Você acertou o agente! 🎉</p>
+  } @else if (derrota && !vitoria) {
+    <p class="mensagem-derrota">❌ Tente novamente!</p>
+  }
 
-  <!-- Botão centralizado -->
+ 
   <div class="btn-container">
     <ion-button expand="block" color="primary" (click)="buscarAgentes()">
       Buscar Novo Agente
     </ion-button>
   </div>
 
-  <!-- Teclado -->
+
   <div class="teclado-container">
-    <div class="key-row" *ngFor="let row of linhasTeclado">
-      <div
-        *ngFor="let key of row"
-        class="key"
-        [ngStyle]="{'background-color': teclado[key] || '#2a2a40'}"
-        (click)="cliqueTecla(key)"
-      >
-        {{ key }}
+    @for (row of linhasTeclado; let i = $index; track i) {
+      <div class="key-row">
+        @for (key of row; let j = $index; track j) {
+          <div
+            class="key"
+            [ngStyle]="{ 'background-color': teclado[key] || '#2a2a40' }"
+            (click)="cliqueTecla(key)"
+          >
+            {{ key }}
+          </div>
+        }
       </div>
-    </div>
+    }
 
     <div class="key-row">
       <div class="key special" (click)="cliqueTecla('BACKSPACE')">⌫</div>

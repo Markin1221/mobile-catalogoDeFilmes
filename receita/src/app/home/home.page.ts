@@ -20,7 +20,6 @@ export class HomePage implements OnInit {
   vitoria = false;
   derrota = false;
 
-  // Armazena todas as tentativas anteriores
   tentativas: { letras: string[]; cores: string[] }[] = [];
 
   linhasTeclado: string[][] = [
@@ -34,10 +33,7 @@ export class HomePage implements OnInit {
   ngOnInit(): void {}
 
   buscarAgentes() {
-    // Só permite buscar novo agente se o jogador venceu ou não começou ainda
-    if (this.agenteSecreto && !this.vitoria) {
-      return;
-    }
+    if (this.agenteSecreto && !this.vitoria) return;
 
     this.api.getAgents().subscribe({
       next: (res: any) => {
@@ -49,15 +45,13 @@ export class HomePage implements OnInit {
           .toUpperCase()
           .replace(/\s+/g, '');
 
-        // Reset total
         this.letters = [];
         this.resultado = [];
         this.teclado = {};
         this.tentativas = [];
         this.vitoria = false;
         this.derrota = false;
-
-        console.log('Agente secreto:', this.agenteSecreto);
+        
       },
       error: (err) => console.error('Erro ao buscar agentes:', err),
     });
@@ -75,18 +69,10 @@ export class HomePage implements OnInit {
   private processKey(rawKey: string) {
     if (!rawKey) return;
     const key = rawKey.toUpperCase();
-
     if (this.vitoria) return;
 
-    if (key === 'BACKSPACE' || key === 'BACK') {
-      this.backspace();
-      return;
-    }
-
-    if (key === 'ENTER') {
-      this.trySubmit();
-      return;
-    }
+    if (key === 'BACKSPACE' || key === 'BACK') return this.backspace();
+    if (key === 'ENTER') return this.trySubmit();
 
     if (!this.agenteSecreto) return;
     if (/^[A-Z]$/.test(key)) this.addLetter(key);
@@ -117,7 +103,7 @@ export class HomePage implements OnInit {
 
     for (let i = 0; i < correta.length; i++) {
       if (tentativa[i] === correta[i]) {
-        this.resultado[i] = '#1cc7d3'; // letra certa e posição certa
+        this.resultado[i] = '#1cc7d3';
         this.teclado[tentativa[i]] = '#1cc7d3';
         freq[correta[i]]--;
       }
@@ -127,24 +113,22 @@ export class HomePage implements OnInit {
       if (this.resultado[i] === '#1cc7d3') continue;
       const letra = tentativa[i];
       if (freq[letra] > 0) {
-        this.resultado[i] = '#142d74'; // letra existe mas posição errada
+        this.resultado[i] = '#142d74';
         if (this.teclado[letra] !== '#1cc7d3') {
           this.teclado[letra] = '#142d74';
         }
         freq[letra]--;
       } else {
-        this.resultado[i] = '#13111aff'; // letra errada
+        this.resultado[i] = '#13111aff';
         this.teclado[letra] ??= '#0f0d14ff';
       }
     }
 
-    // Salva tentativa no histórico
     this.tentativas.push({
       letras: [...this.letters],
       cores: [...this.resultado],
     });
 
-    // Vitória
     if (tentativa === correta) {
       this.vitoria = true;
       this.derrota = false;
@@ -152,7 +136,6 @@ export class HomePage implements OnInit {
       this.derrota = true;
     }
 
-    // Reseta entrada para próxima tentativa
     this.letters = [];
   }
 }
