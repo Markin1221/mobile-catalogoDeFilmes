@@ -2,9 +2,9 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { ApiService } from '../services/receitas-api'; 
+import { ApiService } from '../services/receitas-api';
 import { ErrorShakeDirective } from '../directives/error-shake';
-import { StatusTentativaPipe } from '../pipes/status-tentativa-pipe'
+import { StatusTentativaPipe } from '../pipes/status-tentativa-pipe';
 
 @Component({
   selector: 'app-home',
@@ -35,6 +35,7 @@ export class HomePage implements OnInit {
   ngOnInit(): void {}
 
   buscarAgentes() {
+    // Impede trocar de agente se o jogador ainda não venceu o atual
     if (this.agenteSecreto && !this.vitoria) return;
 
     this.api.getAgents().subscribe({
@@ -47,13 +48,13 @@ export class HomePage implements OnInit {
           .toUpperCase()
           .replace(/\s+/g, '');
 
+        // Reseta o jogo
         this.letters = [];
         this.resultado = [];
         this.teclado = {};
         this.tentativas = [];
         this.vitoria = false;
         this.derrota = false;
-
       },
       error: (err) => console.error('Erro ao buscar agentes:', err),
     });
@@ -103,6 +104,7 @@ export class HomePage implements OnInit {
 
     for (const ch of correta) freq[ch] = (freq[ch] || 0) + 1;
 
+    // Primeira passada — letras corretas
     for (let i = 0; i < correta.length; i++) {
       if (tentativa[i] === correta[i]) {
         this.resultado[i] = '#1cc7d3';
@@ -111,6 +113,7 @@ export class HomePage implements OnInit {
       }
     }
 
+    // Segunda passada — letras parciais e erradas
     for (let i = 0; i < correta.length; i++) {
       if (this.resultado[i] === '#1cc7d3') continue;
       const letra = tentativa[i];
@@ -126,18 +129,21 @@ export class HomePage implements OnInit {
       }
     }
 
+    // Salva tentativa no histórico
     this.tentativas.push({
       letras: [...this.letters],
       cores: [...this.resultado],
     });
 
+    // Verifica se acertou
     if (tentativa === correta) {
       this.vitoria = true;
       this.derrota = false;
     } else {
+      // Se errou, limpa o campo atual e permite nova tentativa
       this.derrota = true;
+      this.letters = [];
+      this.resultado = [];
     }
-
-    this.letters = [];
   }
 }

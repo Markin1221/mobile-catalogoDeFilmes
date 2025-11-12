@@ -7,7 +7,21 @@
 <ion-content [class.vitoria-bg]="vitoria" class="termo-bg ion-padding">
   <h2 class="subtitle">Descubra o Agente Secreto!</h2>
 
-  <!-- Espaços das letras -->
+  <!-- Tentativas anteriores -->
+  <div class="tentativas-container" *ngIf="tentativas.length > 0">
+    <h3 class="tentativas-titulo">Seus chutes anteriores:</h3>
+    <div class="tentativa" *ngFor="let t of tentativas">
+      <div
+        class="letra tentativa-letra"
+        *ngFor="let l of t.letras; let i = index"
+        [ngStyle]="{ 'background-color': t.cores[i] }"
+      >
+        {{ l }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Espaços das letras atuais -->
   <div
     class="letras-container"
     [appShakeOnError]="derrota && !vitoria"
@@ -67,4 +81,14 @@
       <div class="key special" (click)="cliqueTecla('ENTER')">ENTER</div>
     </div>
   </div>
+
+  <!-- Tela de Vitória (fora do loop do teclado) -->
+  <div class="overlay-vitoria" *ngIf="vitoria">
+    <div class="vitoria-box">
+      <h2>🎉 Parabéns, Agente! 🎉</h2>
+      <p>Você descobriu o agente secreto: <strong>{{ agenteSecreto }}</strong></p>
+      <ion-button expand="block" (click)="buscarAgentes()">Novo Desafio</ion-button>
+    </div>
+  </div>
+
 </ion-content>
