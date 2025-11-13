@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar color="dark" class="header-custom">
     <ion-title class="titulo-jogo">VALOROSO</ion-title>
+    <a href="./page2">Histórico</a>
   </ion-toolbar>
 </ion-header>
 
@@ -11,48 +12,79 @@
     <h2 class="subtitle">Descubra o Agente Secreto!</h2>
 
     <div class="letras-container" [appShakeOnError]="derrota && !vitoria">
-      <div
-        class="letra"
-        *ngFor="let _ of agenteSecreto.split(''); let i = index"
-        [ngClass]="{
-          'correta': resultado[i] === '#1cc7d3',
-          'parcial': resultado[i] === '#142d74',
-          'errada': resultado[i] === '#39334f'
-        }"
-      >
-        {{ letters[i] || '' }}
-      </div>
+
+      @for (letra of agenteSecreto.split(''); track $index) {
+        <div
+          class="letra"
+          [ngClass]="{
+            'correta': resultado[$index] === '#1cc7d3',
+            'parcial': resultado[$index] === '#142d74',
+            'errada': resultado[$index] === '#39334f'
+          }"
+        >
+          {{ letters[$index] || '' }}
+        </div>
+      }
     </div>
 
-    <p *ngIf="vitoria" class="mensagem-vitoria">🎉 Você acertou o agente! 🎉</p>
-    <p *ngIf="derrota && !vitoria" class="mensagem-derrota">❌ Acabaram as tentativas!</p>
+    @if (vitoria) {
+      <p class="mensagem-vitoria">🎉 Você acertou o agente! 🎉</p>
+    }
+
+    @if (derrota && !vitoria) {
+      <p class="mensagem-status">
+          {{ vitoria | statusTentativa:  derrota}}
+        </p>
+    }
   </div>
+
+
+
 
   <!-- HISTÓRICO DE TENTATIVAS -->
-  <div class="tentativas-container" *ngIf="tentativas.length > 0">
-    <h3 class="tentativas-titulo">Seus chutes anteriores:</h3>
+  @if (tentativas.length > 0) {
+    <div class="tentativas-container">
+      <h3 class="tentativas-titulo">Seus chutes anteriores:</h3>
 
-    <div class="tentativa" *ngFor="let t of tentativas">
-      <div
-        class="tentativa-letra"
-        *ngFor="let l of t.letras; let i = index"
-        [ngStyle]="{ 'background-color': t.cores[i] }"
-      >
-        {{ l }}
-      </div>
+      @for (t of tentativas; track $index) {
+        <div class="tentativa">
+          @for (l of t.letras; track $index) {
+            <div
+              class="tentativa-letra"
+              [ngStyle]="{ 'background-color': t.cores[$index] }"
+            >
+              {{ l }}
+            </div>
+          }
+        </div>
+      }
     </div>
-  </div>
+  }
+
+
+
 
   <!-- TELA DE VITÓRIA -->
-  <div class="overlay-vitoria" *ngIf="vitoria">
-    <div class="vitoria-box">
-      <p class="mensagem-status">
-    {{ vitoria | statusTentativa: derrota }}
-  </p>
-      <p>Você descobriu o agente secreto: <strong>{{ agenteSecreto }}</strong></p>
-      <ion-button expand="block" (click)="buscarAgentes()">Novo Desafio</ion-button>
+  @if (vitoria) {
+    <div class="overlay-vitoria">
+      <div class="vitoria-box">
+        <p class="mensagem-status">
+          {{ vitoria | statusTentativa: derrota }}
+        </p>
+
+        <p>
+          Você descobriu o agente secreto:
+          <strong>{{ agenteSecreto }}</strong>
+        </p>
+
+        <ion-button expand="block" (click)="buscarAgentes()">
+          Novo Desafio
+        </ion-button>
+      </div>
     </div>
-  </div>
+  }
+
+
 
   <!-- ÁREA INFERIOR FIXA -->
   <div class="bottom-area">
@@ -64,22 +96,28 @@
     </div>
 
     <div class="teclado-container">
-      <div class="key-row" *ngFor="let row of linhasTeclado">
-        <div
-          class="key"
-          *ngFor="let key of row"
-          [ngStyle]="{ 'background-color': teclado[key] || '#1e1e2f' }"
-          (click)="cliqueTecla(key)"
-        >
-          {{ key }}
+
+      @for (row of linhasTeclado; track $index) {
+        <div class="key-row">
+          @for (key of row; track $index) {
+            <div
+              class="key"
+              [ngStyle]="{ 'background-color': teclado[key] || '#1e1e2f' }"
+              (click)="cliqueTecla(key)"
+            >
+              {{ key }}
+            </div>
+          }
         </div>
-      </div>
+      }
 
       <div class="key-row">
         <div class="key special" (click)="cliqueTecla('BACKSPACE')">⌫</div>
         <div class="key special" (click)="cliqueTecla('ENTER')">ENTER</div>
       </div>
+
     </div>
+
   </div>
 
 </ion-content>
