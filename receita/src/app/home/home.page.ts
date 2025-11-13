@@ -4,12 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ApiService } from '../services/receitas-api';
 import { ErrorShakeDirective } from '../directives/error-shake';
-import { StatusTentativaPipe } from '../pipes/status-tentativa-pipe'
+import { StatusTentativaPipe } from '../pipes/status-tentativa-pipe';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, ErrorShakeDirective],
+  imports: [CommonModule, FormsModule, IonicModule, ErrorShakeDirective, StatusTentativaPipe],
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })

@@ -1,32 +1,23 @@
 <ion-header>
   <ion-toolbar color="dark" class="header-custom">
-    <ion-title class="titulo-jogo">{{ 'valoroso' | uppercase }}</ion-title>
+    <ion-title class="titulo-jogo">VALOROSO</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [class.vitoria-bg]="vitoria" class="termo-bg ion-padding">
-
   <h2 class="subtitle">Descubra o Agente Secreto!</h2>
 
   <!-- Tentativas anteriores -->
-  @if (tentativas.length > 0) {
-    <div class="tentativas-container">
-      <h3 class="tentativas-titulo">
-        {{ 'seus chutes anteriores:' | uppercase }}
-      </h3>
-
-      @for (t of tentativas; track $index) {
-        <div class="tentativa">
-          @for (l of t.letras; track $index; let i = $index) {
-            <div
-              class="letra tentativa-letra"
-              [ngStyle]="{ 'background-color': t.cores[i] }"
-            >
-              {{ l }}
-            </div>
-          }
-        </div>
-      }
+  <div class="tentativas-container" *ngIf="tentativas.length > 0">
+    <h3 class="tentativas-titulo">Seus chutes anteriores:</h3>
+    <div class="tentativa" *ngFor="let t of tentativas">
+      <div
+        class="letra tentativa-letra"
+        *ngFor="let l of t.letras; let i = index"
+        [ngStyle]="{ 'background-color': t.cores[i] }"
+      >
+        {{ l }}
+      </div>
     </div>
   </div>
 
@@ -91,7 +82,7 @@
     </div>
   </div>
 
-  <!-- Tela de Vitória -->
+  <!-- Tela de Vitória (fora do loop do teclado) -->
   <div class="overlay-vitoria" *ngIf="vitoria">
     <div class="vitoria-box">
       <h2>🎉 Parabéns, Agente! 🎉</h2>
