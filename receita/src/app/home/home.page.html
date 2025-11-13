@@ -1,94 +1,23 @@
-<ion-header>
-  <ion-toolbar color="dark" class="header-custom">
-    <ion-title class="titulo-jogo">VALOROSO</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Agentes do Valorant</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [class.vitoria-bg]="vitoria" class="termo-bg ion-padding">
-  <h2 class="subtitle">Descubra o Agente Secreto!</h2>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-button expand="full" (click)="buscarAgentes()">
+    Buscar Agentes
+  </ion-button>
 
-  <!-- Tentativas anteriores -->
-  <div class="tentativas-container" *ngIf="tentativas.length > 0">
-    <h3 class="tentativas-titulo">Seus chutes anteriores:</h3>
-    <div class="tentativa" *ngFor="let t of tentativas">
-      <div
-        class="letra tentativa-letra"
-        *ngFor="let l of t.letras; let i = index"
-        [ngStyle]="{ 'background-color': t.cores[i] }"
-      >
-        {{ l }}
-      </div>
-    </div>
+  <div *ngIf="agentes.length > 0">
+    <h2>Agentes:</h2>
+    <ion-list>
+      <ion-item *ngFor="let agente of agentes">
+        <ion-label>
+          <h2>{{ agente.displayName }}</h2>
+          <p>{{ agente.description }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
   </div>
-
-  <!-- Espaços das letras atuais -->
-  <div
-    class="letras-container"
-    [appShakeOnError]="derrota && !vitoria"
-  >
-    @for (letter of agenteSecreto.split(''); track $index) {
-      <div
-        class="letra"
-        [ngClass]="{
-          'correta': resultado[$index] === '#1cc7d3',
-          'parcial': resultado[$index] === '#142d74',
-          'errada': resultado[$index] === '#39334f'
-        }"
-      >
-        {{ letters[$index] || '' }}
-      </div>
-    } @empty {
-      <p>Nenhum agente encontrado!</p>
-    }
-  </div>
-
-  <!-- Mensagens -->
-  @if (vitoria) {
-    <p class="mensagem-vitoria">🎉 Você acertou o agente! 🎉</p>
-  } @else if (derrota && !vitoria) {
-    <p class="mensagem-derrota">❌ Tente novamente!</p>
-  }
-
-  <!-- Botão centralizado -->
-  <div class="btn-container">
-    <ion-button
-      expand="block"
-      color="primary"
-      (click)="buscarAgentes()"
-    >
-      Buscar Novo Agente
-    </ion-button>
-  </div>
-
-  <!-- Teclado -->
-  <div class="teclado-container">
-    @for (row of linhasTeclado; track $index) {
-      <div class="key-row">
-        @for (key of row; track $index) {
-          <div
-            class="key"
-            [ngStyle]="{ 'background-color': teclado[key] || '#2a2a40' }"
-            (click)="cliqueTecla(key)"
-          >
-            {{ key }}
-          </div>
-        }
-      </div>
-    }
-
-    <div class="key-row">
-      <div class="key special" (click)="cliqueTecla('BACKSPACE')">⌫</div>
-      <div class="key special" (click)="cliqueTecla('ENTER')">ENTER</div>
-    </div>
-  </div>
-
-  <!-- Tela de Vitória (fora do loop do teclado) -->
-  <div class="overlay-vitoria" *ngIf="vitoria">
-    <div class="vitoria-box">
-      <h2>🎉 Parabéns, Agente! 🎉</h2>
-      <p>Você descobriu o agente secreto: <strong>{{ agenteSecreto }}</strong></p>
-      <ion-button expand="block" (click)="buscarAgentes()">Novo Desafio</ion-button>
-    </div>
-  </div>
-
 </ion-content>

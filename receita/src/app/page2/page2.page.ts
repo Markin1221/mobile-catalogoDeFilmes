@@ -1,26 +1,11 @@
-import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonButton,
-} from '@ionic/angular/standalone';  
+
 type TileState = 'empty' | 'filled' | 'correct' | 'present' | 'absent';
 
 @Component({
   selector: 'app-page2',
   templateUrl: './page2.page.html',
   styleUrls: ['./page2.page.scss'],
-  imports: [
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonButton,
-    NgClass,
-  ],
 })
 export class Page2Page implements OnInit {
 
@@ -44,10 +29,6 @@ export class Page2Page implements OnInit {
     ['A','S','D','F','G','H','J','K','L'],
     ['Z','X','C','V','B','N','M']
   ];
-
-  toggleTheme() {
-  document.body.classList.toggle('light-mode');
-}
 
   // --- Estado do jogo ---
   answer = '';             // palavra do dia selecionada
@@ -227,6 +208,7 @@ export class Page2Page implements OnInit {
 
     return result;
   }
+
   // exibir classe no teclado
   keyClass(k: string) {
     const st = this.keyStates[k];
