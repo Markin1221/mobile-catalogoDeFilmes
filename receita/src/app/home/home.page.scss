@@ -152,10 +152,10 @@ ion-button {
 .key {
   background-color: #1e1e2f;
   border-radius: 14px;
-  padding: 28px 34px;
+  padding: 20px 26px; /* DIMINUÍDO */
   margin: 6px;
-  font-size: 1.4rem;
-  min-width: 60px;
+  font-size: 1.2rem; /* menor */
+  min-width: 45px;   /* menor */
   text-align: center;
   cursor: pointer;
   transition: 0.15s;
@@ -184,6 +184,7 @@ ion-button {
   font-size: 1.2rem;
   color: #ff6b6b;
   font-weight: bold;
+  text-align: center;     /* CENTRALIZADA */
 }
 
 /* Overlay vitória */
