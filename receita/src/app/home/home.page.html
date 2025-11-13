@@ -46,7 +46,9 @@
   <!-- TELA DE VITÓRIA -->
   <div class="overlay-vitoria" *ngIf="vitoria">
     <div class="vitoria-box">
-      <h2>🎉 Parabéns, Agente! 🎉</h2>
+      <p class="mensagem-status">
+    {{ vitoria | statusTentativa: derrota }}
+  </p>
       <p>Você descobriu o agente secreto: <strong>{{ agenteSecreto }}</strong></p>
       <ion-button expand="block" (click)="buscarAgentes()">Novo Desafio</ion-button>
     </div>
