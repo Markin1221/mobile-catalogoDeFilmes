@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 
 interface HistoryItem {
   word: string;
@@ -11,6 +14,7 @@ interface HistoryItem {
   selector: 'app-page2',
   templateUrl: './page2.page.html',
   styleUrls: ['./page2.page.scss'],
+  imports: [CommonModule, FormsModule, IonicModule]
 })
 export class Page2Page {
 

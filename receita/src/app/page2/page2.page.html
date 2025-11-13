@@ -11,61 +11,74 @@
       <div>Palavra do dia • Valorant Edition</div>
       <div class="meta">Tentativas: ** • Tamanho:** {{ wordLength }} letras</div>
     </div>
-<div class="history-grid">
- 
-  <div class="history-item" 
-       *ngFor="let item of history" 
-       (click)="openHistoryItem(item)">
 
-    <div class="h-word">{{ item.word }}</div>
-    <div class="h-info">{{ item.attempts }} tentativas</div>
-    <div class="h-size">{{ item.word.length }} letras</div>
-  </div>
-</div>
-  
-<div class="history-modal" *ngIf="selectedItem">
-  <div class="history-box">
-    <h2>Detalhes da Partida</h2>
-
-    <p><strong>Palavra:</strong> {{ selectedItem.word }}</p>
-    <p><strong>Tentativas:</strong> {{ selectedItem.attempts }}</p>
-
-    <h3>Palavras tentadas:</h3>
-
-    <div class="attempt-list">
-      <div class="attempt" *ngFor="let attempt of selectedItem.triedWords">
-        {{ attempt }}
-      </div>
+    <div class="history-grid">
+      @for (item of history; track $index) {
+        <div class="history-item" (click)="openHistoryItem(item)">
+          <div class="h-word">{{ item.word }}</div>
+          <div class="h-info">{{ item.attempts }} tentativas</div>
+          <div class="h-size">{{ item.word.length }} letras</div>
+        </div>
+      } @empty {
+        <p>Nenhum histórico encontrado.</p>
+      }
     </div>
 
-    <button class="close-btn" (click)="selectedItem = null">Fechar</button>
 
-    <div class="grid" [style.gridTemplateColumns]="'repeat(' + wordLength + ', 1fr)'">
-      <ng-container *ngFor="let r of rows; let ri = index">
-        <ng-container *ngFor="let c of cols; let ci = index">
-          <div class="tile"
-               [ngClass]="getTileClass(ri, ci)">
-            {{ getLetter(ri, ci) }}
+    @if (selectedItem) {
+      <div class="history-modal">
+        <div class="history-box">
+          <h2>Detalhes da Partida</h2>
+
+          <p><strong>Palavra:</strong> {{ selectedItem.word }}</p>
+          <p><strong>Tentativas:</strong> {{ selectedItem.attempts }}</p>
+
+          <h3>Palavras tentadas:</h3>
+
+          <div class="attempt-list">
+            @for (attempt of selectedItem.triedWords; track $index) {
+              <div class="attempt">
+                {{ attempt }}
+              </div>
+            }
           </div>
-        </ng-container>
-      </ng-container>
-    </div>
-    <div class="message" *ngIf="message">{{ message }}</div>
-    <div class="controls">
-    </div>
 
-    <div class="keyboard">
-      <div class="row" *ngFor="let line of keyboardRows">
-        <button class="kbtn" *ngFor="let k of line"
-                [ngClass]="keyClass(k)"
-                (click)="onKey(k)">
-          {{ k }}
-        </button>
-      </div>
-      <div class="row">
-        <button class="kbtn action" (click)="onBackspace()">Apagar Historico</button>
-      </div>
-    </div>
+          <button class="close-btn" (click)="selectedItem = null">Fechar</button>
 
+          <div class="grid" [style.gridTemplateColumns]="'repeat(' + wordLength + ', 1fr)'">
+
+            @for (r of rows; track ri; let ri = $index) {
+              @for (c of cols; track ci; let ci = $index) {
+                <div class="tile" [ngClass]="getTileClass(ri, ci)">
+                  {{ getLetter(ri, ci) }}
+                </div>
+              }
+            }
+
+          </div>
+
+         
+
+          <div class="keyboard">
+            @for (line of keyboardRows; track $index) {
+              <div class="row">
+                @for (k of line; track $index) {
+                  <button class="kbtn"
+                          [ngClass]="keyClass(k)"
+                          (click)="onKey(k)">
+                    {{ k }}
+                  </button>
+                }
+              </div>
+            }
+
+            <div class="row">
+              <button class="kbtn action" (click)="onBackspace()">Apagar Historico</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    }
   </div>
 </ion-content>
