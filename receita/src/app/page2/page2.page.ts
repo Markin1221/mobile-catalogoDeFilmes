@@ -45,10 +45,6 @@ export class Page2Page implements OnInit {
     ['Z','X','C','V','B','N','M']
   ];
 
-  toggleTheme() {
-  document.body.classList.toggle('light-mode');
-}
-
   // --- Estado do jogo ---
   answer = '';             // palavra do dia selecionada
   wordLength = 5;          // comprimento atual
@@ -227,6 +223,7 @@ export class Page2Page implements OnInit {
 
     return result;
   }
+
   // exibir classe no teclado
   keyClass(k: string) {
     const st = this.keyStates[k];
