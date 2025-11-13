@@ -1,41 +1,17 @@
-import { Component } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HomePage } from './home.page';
 
-@Component({
-  selector: 'app-valoroso-historico',
-  templateUrl: './valoroso-historico.page.html',
-  styleUrls: ['./valoroso-historico.page.scss'],
-})
-export class ValorosoHistoricoPage {
-  isDarkMode = true;
+describe('HomePagePage', () => {
+  let component: HomePage;
+  let fixture: ComponentFixture<HomePage>;
 
-  palavras = [
-    { palavra: 'valorant', letras: 8, tentativas: 3, acertou: true },
-    { palavra: 'phantom', letras: 7, tentativas: 5, acertou: true },
-    { palavra: 'vandal', letras: 6, tentativas: 4, acertou: false },
-  ];
+  beforeEach(() => {
+    fixture = TestBed.createComponent(HomePage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-  constructor(private platform: Platform) {}
-
-  toggleTheme() {
-    this.isDarkMode = !this.isDarkMode;
-    document.body.classList.toggle('light-mode', !this.isDarkMode);
-    this.playSound('click');
-  }
-
-  // Funções para som
-  playSound(tipo: 'acerto' | 'erro' | 'click') {
-    const audio = new Audio();
-    switch (tipo) {
-      case 'acerto':
-        audio.src = 'assets/sounds/acerto.mp3'; break;
-      case 'erro':
-        audio.src = 'assets/sounds/erro.mp3'; break;
-      default:
-        audio.src = 'assets/sounds/click.mp3'; break;
-    }
-    audio.volume = 0.5;
-    audio.play().catch(() => {}); // Evita erro se o som não carregar
-  }
-}
-
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
