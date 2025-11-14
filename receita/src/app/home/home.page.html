@@ -27,11 +27,9 @@
       }
     </div>
 
-    @if (vitoria) {
-      <p class="mensagem-vitoria">🎉 Você acertou o agente! 🎉</p>
-    }
 
-    @if (derrota && !vitoria) {
+
+    @if (derrota) {
       <p class="mensagem-status">
           {{ vitoria | statusTentativa:  derrota}}
         </p>
