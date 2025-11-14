@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { ApiService } from '../services/receitas-api';
 import { ErrorShakeDirective } from '../directives/error-shake';
 import { StatusTentativaPipe } from '../pipes/status-tentativa-pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -30,19 +31,31 @@ export class HomePage implements OnInit {
     ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
   ];
 
-  // 🔥 AGORA SÃO 3 TENTATIVAS
+  
   maxTentativas = 3;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private router: Router) {}
 
   ngOnInit(): void {}
 
-  // 🔥 Agora permite buscar NOVO agente depois de perder
+ 
+  finalizarPartida() {
+  const item = {
+    word: this.agenteSecreto, 
+    attempts: this.tentativas.length,
+    triedWords: this.tentativas.map(t => t.letras.join(''))
+  };
+
+ 
+  const hist = JSON.parse(localStorage.getItem('history') || '[]');
+  hist.push(item);
+  localStorage.setItem('history', JSON.stringify(hist));
+
+}
+
+
   buscarAgentes() {
-    // pode buscar se:
-    // - não há agente ainda
-    // - ou venceu
-    // - ou perdeu
+    
     if (this.agenteSecreto && !this.vitoria && !this.derrota) {
       return;
     }
@@ -58,7 +71,7 @@ export class HomePage implements OnInit {
           .toUpperCase()
           .replace(/\s+/g, '');
 
-        // reset completo
+        
         this.letters = [];
         this.resultado = [];
         this.teclado = {};
@@ -168,15 +181,17 @@ export class HomePage implements OnInit {
       cores: [...this.resultado],
     });
 
-    // 🔥 VITÓRIA
+   
     if (tentativa === correta) {
       this.vitoria = true;
       this.derrota = false;
+      this.finalizarPartida();
     } 
-    // 🔥 DERROTA após 3 tentativas
+    
     else if (this.tentativas.length >= this.maxTentativas) {
       this.derrota = true;
       this.vitoria = false;
+      this.finalizarPartida();
     } else {
       this.vitoria = false;
       this.derrota = false;
@@ -184,5 +199,7 @@ export class HomePage implements OnInit {
 
     this.letters = [];
     this.resultado = [];
+    
   }
+  
 }

@@ -1,14 +1,14 @@
 <ion-header>
-  <ion-toolbar color="dark" class="header-custom">
-    <ion-title class="titulo-jogo">{{'valoroso' | uppercase}}</ion-title>
+  <ion-toolbar  class="header-custom">
+    <ion-title class="titulo-jogo">{{'dgg valoroso' | uppercase}}</ion-title>
     <a href="./page2">Histórico</a>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [class.vitoria-bg]="vitoria" class="termo-bg ion-padding">
 
-  <!-- ÁREA SUPERIOR FIXA -->
-  <div class="top-area">
+  
+  <div class="bottom-area">
     <h2 class="subtitle">Descubra o Agente Secreto!</h2>
 
     <div class="letras-container" [appShakeOnError]="derrota && !vitoria">
@@ -34,7 +34,7 @@
           {{ vitoria | statusTentativa:  derrota}}
         </p>
     }
-  </div>
+  
 
 
 
@@ -84,8 +84,8 @@
 
 
 
-  <!-- ÁREA INFERIOR FIXA -->
-  <div class="bottom-area">
+  
+  
 
     <div class="btn-container">
       <ion-button expand="block" color="primary" (click)="buscarAgentes()">
@@ -93,7 +93,9 @@
       </ion-button>
     </div>
 
-    <div class="teclado-container">
+    @if (!vitoria) {
+
+      <div class="teclado-container">
 
       @for (row of linhasTeclado; track $index) {
         <div class="key-row">
@@ -115,6 +117,8 @@
       </div>
 
     </div>
+    }
+    
 
   </div>
 

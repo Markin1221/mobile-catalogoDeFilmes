@@ -5,8 +5,8 @@
   align-items: center;
   background-color: #0d1117;
   min-height: 100vh;
-  color: #fff;
-  padding: 20px;
+  padding: 20px 12px;
+  color: #f90d0d;
 }
 
 /* Header */
@@ -27,36 +27,36 @@
 
 /* Subtítulo */
 .subtitle {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   margin: 8px 0 16px 0;
 }
 
 /* Área superior */
 .top-area {
   width: 100%;
-  max-width: 900px;
-  margin: 0 auto 8px auto;
+  max-width: 480px;
+  margin: 0 auto 10px auto;
 }
 
-/* Letras da tentativa atual */
+/* Tentativa atual */
 .letras-container {
+  margin-top: 30px;
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 10px;
+  margin-bottom: 14px;
 }
 
 .letra {
-  width: 65px;
-  height: 65px;
+  width: 58px;
+  height: 58px;
   border-radius: 10px;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  background-color: #1e1e2f;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #1e1e2f;
-  font-weight: bold;
-  color: #fff;
 }
 
 .letra.correta {
@@ -64,7 +64,7 @@
 }
 
 .letra.parcial {
-  background-color: #142d74;
+  background-color: #2a3f8d;
 }
 
 .letra.errada {
@@ -73,54 +73,56 @@
 
 /* Tentativas anteriores */
 .tentativas-container {
+  margin-top: 30px;
   width: 100%;
-  max-width: 900px;
-  margin: 10px auto 120px auto;
+  max-width: 480px;
+  margin: 14px auto 10px auto;
   text-align: center;
 }
 
 .tentativas-titulo {
   color: #cfeff6;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  font-size: 1.05rem;
   font-weight: 600;
 }
 
 .tentativa {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: 8px;
+  margin-bottom: 8px;
 }
 
 .tentativa-letra {
-  width: 50px;
-  height: 50px;
+  width: 42px;
+  height: 42px;
   border-radius: 8px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  color: white;
 }
 
 /* Área inferior fixa */
 .bottom-area {
   position: fixed;
+  height: 100%;
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 18px 0 30px 0;
   background: #0d1117;
+  padding: 14px 8px 26px 8px;
+  box-shadow: 0 -10px 25px rgba(0,0,0,0.6);
+  z-index: 99;
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 50;
-  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.5);
 }
 
 ion-content {
-  padding-bottom: 420px !important;
+  padding-bottom: 360px !important;
 }
 
 /* Botão */
@@ -129,36 +131,47 @@ ion-content {
 }
 
 ion-button {
-  width: 260px;
   --background: #1cc7d3;
-  --color: white;
+  --color: #fff;
   --border-radius: 12px;
+  width: 240px;
   font-weight: bold;
+  font-size: 1rem;
 }
 
 /* Teclado */
 .teclado-container {
+  margin-top: 30px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #0d1117;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 18px 0 26px 0;
+  box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.6);
+  z-index: 999;
 }
+
 
 .key-row {
   display: flex;
   justify-content: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .key {
   background-color: #1e1e2f;
-  border-radius: 14px;
-  padding: 20px 26px; /* DIMINUÍDO */
-  margin: 6px;
-  font-size: 1.2rem; /* menor */
-  min-width: 45px;   /* menor */
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin: 4px;
+  font-size: 1.1rem;
+  min-width: 42px;
   text-align: center;
   cursor: pointer;
-  transition: 0.15s;
+  transition: 0.2s;
   color: #fff;
 }
 
@@ -172,22 +185,23 @@ ion-button {
 }
 
 /* Mensagens */
-.mensagem-vitoria {
-  margin-top: 8px;
-  font-size: 1.2rem;
-  color: #00ffcc;
+.mensagem-vitoria, 
+.mensagem-derrota {
+  font-size: 1rem;
   font-weight: bold;
+  text-align: center;
+  margin-top: 12px;
+}
+
+.mensagem-vitoria {
+  color: #00ffcc;
 }
 
 .mensagem-derrota {
-  margin-top: 8px;
-  font-size: 1.2rem;
   color: #ff6b6b;
-  font-weight: bold;
-  text-align: center;     /* CENTRALIZADA */
 }
 
-/* Overlay vitória */
+/* modal vitória */
 .overlay-vitoria {
   position: fixed;
   top: 0;
@@ -203,8 +217,10 @@ ion-button {
 
 .vitoria-box {
   background: linear-gradient(135deg, #0d1117, #1cc7d3);
-  padding: 30px;
-  border-radius: 20px;
+  padding: 24px;
+  border-radius: 18px;
   text-align: center;
-  color: white;
+  width: 85%;
+  max-width: 340px;
+  color: #fff;
 }

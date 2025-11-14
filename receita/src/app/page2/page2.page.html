@@ -1,15 +1,19 @@
 <ion-header>
-  <ion-toolbar color="dark">
-    <ion-title>Valoroso Historico</ion-title>
+  <ion-toolbar>
+    <ion-title class="titulo-header">Histórico • Valoroso</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="page-content">
+
+  <ion-button class="btn-voltar" (click)="voltar()">
+    Voltar
+  </ion-button>
+
   <div class="game-wrap">
 
     <div class="info">
-      <div>Palavra do dia • Valorant Edition</div>
-      <div class="meta">Tentativas: ** • Tamanho:** {{ wordLength }} letras</div>
+      <div class="game-title">{{'dgg valoroso' | uppercase}}</div>
     </div>
 
     <div class="history-grid">
@@ -20,15 +24,17 @@
           <div class="h-size">{{ item.word.length }} letras</div>
         </div>
       } @empty {
-        <p>Nenhum histórico encontrado.</p>
+        <p class="empty">Nenhum histórico encontrado.</p>
       }
     </div>
 
-
     @if (selectedItem) {
+
       <div class="history-modal">
+
         <div class="history-box">
-          <h2>Detalhes da Partida</h2>
+
+          <h2 class="modal-title">Detalhes da Partida</h2>
 
           <p><strong>Palavra:</strong> {{ selectedItem.word }}</p>
           <p><strong>Tentativas:</strong> {{ selectedItem.attempts }}</p>
@@ -37,15 +43,14 @@
 
           <div class="attempt-list">
             @for (attempt of selectedItem.triedWords; track $index) {
-              <div class="attempt">
-                {{ attempt }}
-              </div>
+              <div class="attempt">{{ attempt }}</div>
             }
           </div>
 
           <button class="close-btn" (click)="selectedItem = null">Fechar</button>
 
-          <div class="grid" [style.gridTemplateColumns]="'repeat(' + wordLength + ', 1fr)'">
+          <div class="grid" 
+               [style.gridTemplateColumns]="'repeat(' + wordLength + ', 1fr)'">
 
             @for (r of rows; track ri; let ri = $index) {
               @for (c of cols; track ci; let ci = $index) {
@@ -57,28 +62,18 @@
 
           </div>
 
-         
-
-          <div class="keyboard">
-            @for (line of keyboardRows; track $index) {
-              <div class="row">
-                @for (k of line; track $index) {
-                  <button class="kbtn"
-                          [ngClass]="keyClass(k)"
-                          (click)="onKey(k)">
-                    {{ k }}
-                  </button>
-                }
-              </div>
-            }
-
-            <div class="row">
-              <button class="kbtn action" (click)="onBackspace()">Apagar Historico</button>
-            </div>
+          <div class="row">
+            <button class="kbtn action" (click)="onBackspace()">
+              Apagar Histórico
+            </button>
           </div>
 
         </div>
+
       </div>
+
     }
+
   </div>
+
 </ion-content>

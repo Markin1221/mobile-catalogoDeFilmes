@@ -8,7 +8,7 @@ describe('ApiService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],  // Adicione isso para mockar HttpClient
+      imports: [HttpClientTestingModule],  
     });
     service = TestBed.inject(ApiService);
   });
